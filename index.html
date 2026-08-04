@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en-IN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediKart – Online Medicine Marketplace</title>
+  <meta name="description" content="MediKart is a demonstration medicine marketplace connecting verified pharmacy sellers with customers. Compare package prices, seller ratings and delivery options across partner pharmacies.">
+  <meta name="theme-color" content="#0d9488">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Inline favicon: avoids a network request and a 404 in the console -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230d9488'/%3E%3Cpath d='M30 34h40M50 34v36M36 70h28' stroke='white' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts & FontAwesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Chart.js for Admin/Dealer analytics. Deferred: it is not needed for first
+       paint and blocked rendering when loaded synchronously in <head>. -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css?v=4.1">
+</head>
+<body>
+
+  <!-- Landing & Auth Root -->
+  <div id="landing-root" style="display:block;">
+    <div class="landing-wrapper">
+      <!-- Landing Top Header -->
+      <header class="landing-header">
+        <div class="landing-brand">
+          <div class="brand-logo-icon"><i class="fas fa-prescription-bottle-alt" aria-hidden="true"></i></div>
+          <div class="brand-logo-text">Medi<span>Kart</span></div>
+        </div>
+        <nav class="landing-nav" aria-label="Primary">
+          <a href="#about-section">About Marketplace</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#why-choose">Why Choose Us</a>
+        </nav>
+        <div class="landing-header-actions">
+          <div class="medicine-quote-badge">
+            <i class="fas fa-shield-halved" aria-hidden="true"></i> 100% Genuine Medicines from Verified Pharmacies
+          </div>
+        </div>
+      </header>
+
+      <!-- Landing Hero Section -->
+      <section class="landing-hero">
+        <div class="landing-hero-content">
+          <div class="hero-pill-badge">
+            <i class="fas fa-user-md" aria-hidden="true"></i> Certified Online Pharmacy Network
+          </div>
+          <h1 class="hero-title">Your Trusted Medicine Marketplace</h1>
+          <p class="hero-subtitle">
+            MediKart connects verified local pharmacy sellers with customers. Compare package prices,
+            seller ratings, and delivery options across our verified partner pharmacies.
+            Select your dashboard role and log in below.
+          </p>
+
+          <!-- Marketplace statistics. Populated at runtime from the actual
+               dataset by MediKartApp.renderLandingStats(). -->
+          <div class="hero-stats-grid">
+            <div class="hero-stat-card">
+              <div class="stat-number" id="statPharmacies">—</div>
+              <div class="stat-label"><i class="fas fa-store" aria-hidden="true"></i> Verified Pharmacies</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="stat-number" id="statMedicines">—</div>
+              <div class="stat-label"><i class="fas fa-pills" aria-hidden="true"></i> Listed Medicines</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="stat-number" id="statCustomers">—</div>
+              <div class="stat-label"><i class="fas fa-smile" aria-hidden="true"></i> Registered Customers</div>
+            </div>
+            <div class="hero-stat-card">
+              <div class="stat-number" id="statDelivered">—</div>
+              <div class="stat-label"><i class="fas fa-shipping-fast" aria-hidden="true"></i> Orders Delivered</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unified Single Login Card -->
+        <div class="landing-hero-graphic">
+          <div class="login-card-wrapper">
+
+            <!-- Login Header -->
+            <div class="login-card-header">
+              <div class="brand-logo-icon login-card-lock">
+                <i class="fas fa-lock" aria-hidden="true"></i>
+              </div>
+              <h2 class="login-card-title">Marketplace Login</h2>
+              <p class="login-card-subtitle">Select portal role &amp; enter credentials to access dashboard</p>
+            </div>
+
+            <!-- Role Selector Tabs -->
+            <div class="login-role-tabs" role="tablist" aria-label="Select login role">
+              <button type="button" id="roleTabBuyer" class="btn btn-sm btn-role-tab active" role="tab" aria-selected="true" onclick="window.MediKartApp.selectLoginRole('buyer')">
+                <i class="fas fa-shopping-cart" aria-hidden="true"></i> Customer
+              </button>
+              <button type="button" id="roleTabDealer" class="btn btn-sm btn-role-tab" role="tab" aria-selected="false" onclick="window.MediKartApp.selectLoginRole('dealer')">
+                <i class="fas fa-store" aria-hidden="true"></i> Pharmacy Seller
+              </button>
+              <button type="button" id="roleTabAdmin" class="btn btn-sm btn-role-tab" role="tab" aria-selected="false" onclick="window.MediKartApp.selectLoginRole('admin')">
+                <i class="fas fa-user-shield" aria-hidden="true"></i> Platform Admin
+              </button>
+            </div>
+
+            <!-- Login Form Fields -->
+            <form onsubmit="event.preventDefault(); window.MediKartApp.handleFormLogin();">
+              <div class="form-group">
+                <label class="form-label-caps" for="loginEmail">Email Address</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-envelope" aria-hidden="true"></i>
+                  <input type="email" id="loginEmail" class="form-control" placeholder="you@example.com" autocomplete="username" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label-caps" for="loginPassword">Password</label>
+                <div class="input-with-icon">
+                  <i class="fas fa-lock" aria-hidden="true"></i>
+                  <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" autocomplete="current-password" required>
+                </div>
+              </div>
+
+              <!-- Demo credential hint. Kept out of the input values so the
+                   password is not shipped pre-filled in the page. -->
+              <div id="loginRoleHint" class="login-demo-hint"></div>
+
+              <button type="submit" id="loginSubmitBtn" class="btn btn-primary btn-block btn-lg login-submit">
+                <i class="fas fa-right-to-bracket" aria-hidden="true"></i> Login &amp; Enter Customer Dashboard
+              </button>
+            </form>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- About the Marketplace -->
+      <section class="landing-section" id="about-section">
+        <div class="section-title-wrapper text-center">
+          <h2 class="section-title">About the Marketplace</h2>
+          <p class="section-subtitle">A single place to compare verified pharmacies on price, rating and delivery speed.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="card about-card">
+            <div class="about-icon bg-light-teal"><i class="fas fa-store" aria-hidden="true"></i></div>
+            <h3>Many pharmacies, one catalog</h3>
+            <p>The same medicine is listed by several verified pharmacies. You see every seller's price, stock and delivery time side by side, then choose.</p>
+          </div>
+          <div class="card about-card">
+            <div class="about-icon bg-light-blue"><i class="fas fa-file-prescription" aria-hidden="true"></i></div>
+            <h3>Prescription-aware</h3>
+            <p>Schedule H and H1 medicines require a valid prescription. Those orders are held until a registered pharmacist reviews and verifies the upload.</p>
+          </div>
+          <div class="card about-card">
+            <div class="about-icon bg-light-green"><i class="fas fa-route" aria-hidden="true"></i></div>
+            <h3>Tracked end to end</h3>
+            <p>Every order moves through six connected stages — Placed, Accepted, Packed, Shipped, Out for Delivery and Delivered — visible to you and the seller.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works -->
+      <section class="landing-section landing-section-alt" id="how-it-works">
+        <div class="section-title-wrapper text-center">
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-subtitle">From search to doorstep in four steps.</p>
+        </div>
+
+        <ol class="how-steps">
+          <li class="how-step">
+            <div class="how-step-num">1</div>
+            <h3>Search &amp; compare</h3>
+            <p>Find a medicine by brand or generic name and compare every verified pharmacy selling it.</p>
+          </li>
+          <li class="how-step">
+            <div class="how-step-num">2</div>
+            <h3>Add a prescription</h3>
+            <p>For prescription-only medicines, upload your doctor's prescription during checkout.</p>
+          </li>
+          <li class="how-step">
+            <div class="how-step-num">3</div>
+            <h3>Pharmacist verifies</h3>
+            <p>A registered pharmacist at the selling pharmacy reviews the prescription before packing.</p>
+          </li>
+          <li class="how-step">
+            <div class="how-step-num">4</div>
+            <h3>Track to delivery</h3>
+            <p>Follow your order through all six fulfilment stages until it reaches your door.</p>
+          </li>
+        </ol>
+      </section>
+
+      <!-- Marketplace Trust, Safety & Quality Assurance -->
+      <section class="landing-section" id="trust-safety">
+        <div class="section-title-wrapper text-center">
+          <h2 class="section-title">Marketplace Trust, Safety &amp; Quality Assurance</h2>
+          <p class="section-subtitle">Our 3-pillar safety protocol covers genuine medicines, verified partner pharmacies, and patient protection.</p>
+        </div>
+
+        <div class="pillar-grid">
+          <!-- Pillar 1: Genuine Medicines -->
+          <div class="card pillar-card pillar-primary">
+            <div class="pillar-head">
+              <div class="pillar-icon pillar-icon-primary">
+                <i class="fas fa-certificate" aria-hidden="true"></i>
+              </div>
+              <h3>100% Genuine Medicines</h3>
+            </div>
+            <div class="pillar-list">
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Sourced from Licensed Chemists:</strong> Partnered strictly with CDSCO-registered local pharmacies.</div>
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Zero Counterfeit Policy:</strong> Mandatory batch number &amp; expiry date verification on every item.</div>
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Tamper-Proof Sealed Packaging:</strong> Hygienic, private, and tamper-evident packaging.</div>
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Cold-Chain Maintenance:</strong> Insulated thermal packing for insulins, biologics, and vaccines.</div>
+            </div>
+          </div>
+
+          <!-- Pillar 2: Rx & Patient Safety -->
+          <div class="card pillar-card pillar-secondary">
+            <div class="pillar-head">
+              <div class="pillar-icon pillar-icon-secondary">
+                <i class="fas fa-file-prescription" aria-hidden="true"></i>
+              </div>
+              <h3>Rx &amp; Patient Safety First</h3>
+            </div>
+            <div class="pillar-list">
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Registered Pharmacist Review:</strong> All Schedule H/H1 prescriptions verified before packing.</div>
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Dosage &amp; Quantity Checks:</strong> Safety thresholds preventing excessive dosage orders.</div>
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Confidential Health Data:</strong> Patient profiles &amp; prescription files handled confidentially.</div>
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Transparent Review Guidance:</strong> Immediate notification if a prescription needs updating.</div>
+            </div>
+          </div>
+
+          <!-- Pillar 3: Customer Protection -->
+          <div class="card pillar-card pillar-accent">
+            <div class="pillar-head">
+              <div class="pillar-icon pillar-icon-accent">
+                <i class="fas fa-shield-halved" aria-hidden="true"></i>
+              </div>
+              <h3>Customer Protection &amp; Support</h3>
+            </div>
+            <div class="pillar-list">
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Multi-Pharmacy Price Transparency:</strong> Compare package pricing &amp; ratings across sellers.</div>
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Refund Support:</strong> Refund claim workflow for damaged, wrong, or expired items.</div>
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Live 6-Stage Tracking:</strong> Connected order progression from placement to delivery.</div>
+              <div><i class="fas fa-check-circle" aria-hidden="true"></i> <strong>Patient Care Desk:</strong> Support for orders, prescriptions, and product advice.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why Choose MediKart -->
+      <section class="landing-section landing-section-alt" id="why-choose">
+        <div class="section-title-wrapper text-center">
+          <h2 class="section-title">Why Choose MediKart</h2>
+          <p class="section-subtitle">Built for clarity, transparency, and patient safety.</p>
+        </div>
+
+        <div class="why-choose-grid">
+          <div class="why-card">
+            <div class="why-icon-box bg-light-blue"><i class="fas fa-balance-scale-left" aria-hidden="true"></i></div>
+            <h3>Compare Multiple Sellers</h3>
+            <p>Compare prices, ratings, and delivery speeds across multiple verified pharmacies.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon-box bg-light-green"><i class="fas fa-certificate" aria-hidden="true"></i></div>
+            <h3>100% Genuine Medicines</h3>
+            <p>Direct sourcing from authorized manufacturers and verified chemists.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon-box bg-light-teal"><i class="fas fa-shield-alt" aria-hidden="true"></i></div>
+            <h3>Verified Pharmacies Only</h3>
+            <p>Every dealer undergoes Drug License (Form 20B/21B) and GST verification.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Landing Footer -->
+      <footer class="landing-footer">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <div class="brand-logo-text text-white">Medi<span>Kart</span></div>
+            <p>A demonstration online medicine marketplace.</p>
+          </div>
+          <div class="footer-demo-notice">
+            <i class="fas fa-circle-info" aria-hidden="true"></i>
+            <strong>Demonstration build.</strong> All pharmacies, medicines, orders and payments shown here are
+            sample data generated in your browser. No real medicines are sold and no real payments are processed.
+          </div>
+          <div class="footer-copyright">
+            © 2026 MediKart Marketplace • About • Contact • Privacy Policy • Terms • FAQ
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Dashboard Roots -->
+  <div id="buyer-root" style="display:none;"></div>
+  <div id="dealer-root" style="display:none;"></div>
+  <div id="admin-root" style="display:none;"></div>
+
+  <!-- Backdrop shown behind the off-canvas sidebar on small screens -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="window.MediKartApp.closeSidebar()"></div>
+
+  <!-- Reusable Global Modal Overlay -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Modal Title</h3>
+        <button type="button" class="modal-close" aria-label="Close dialog" onclick="window.MediKartApp.closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer" id="modalFooter"></div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Application JavaScript Modules -->
+  <script src="js/data.js?v=4.1"></script>
+  <script src="js/timeline.js?v=4.1"></script>
+  <script src="js/reports.js?v=4.1"></script>
+  <script src="js/buyer.js?v=4.1"></script>
+  <script src="js/dealer.js?v=4.1"></script>
+  <script src="js/admin.js?v=4.1"></script>
+  <script src="js/app.js?v=4.1"></script>
+
+</body>
+</html>
