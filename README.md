@@ -18,52 +18,36 @@ Welcome to the official **Operating Systems (OS)** repository maintained by **Ni
 
 ```text
 2520030366_OS/
-├── 📂 Practical/       # Weekly lab experiments, CPU scheduling, IPC, memory management & disk algorithms
-├── 📂 Skill/           # Skill development tasks, multithreading, synchronization & low-level memory allocation
-└── 📂 Project/         # Main OS kernel project (BlackPanther OS) source code and documentation
+├── 📂 Practical/       # Lab exercises, experiment solutions, and practical assignments
+├── 📂 Skill/           # Skill development tasks, problem-solving challenges, and practice modules
+└── 📂 Project/         # Main OS kernel project documentation and source code
 ```
 
 ### 📑 Folder Summaries
 
 | Folder | Description | Repository Link |
 | :--- | :--- | :--- |
-| [**Practical**](./Practical/) | Contains all weekly practical lab experiments, C implementation files, and lab documentation. | [Explore Practical Folder](./Practical/) |
-| [**Skill**](./Skill/) | Contains skill building tasks, system programming exercises, and advanced OS practice modules. | [Explore Skill Folder](./Skill/) |
-| [**Project**](./Project/) | Contains the BlackPanther OS 32-bit Kernel source code, architecture details, and project documentation. | [BlackPanther OS GitHub Repo](https://github.com/NLR-2007/BlackPanther_OSSP_S6) |
+| [**Practical**](./Practical/) | Contains all weekly practical lab experiments, code files, and lab documentation. | [Explore Practical Folder](./Practical/) |
+| [**Skill**](./Skill/) | Contains skill building tasks, algorithm exercises, and practice problem sets. | [Explore Skill Folder](./Skill/) |
+| [**Project**](./Project/) | Contains the BlackPanther OS 32-bit Kernel documentation and source code link. | [BlackPanther OS GitHub Repo](https://github.com/NLR-2007/BlackPanther_OSSP_S6) |
 
 ---
 
-## 🛠️ Updated Practical Files List (`/Practical`)
+## 🛠️ Practical Files List (`/Practical`)
 
-The `Practical/` folder contains hands-on laboratory experiment files covering fundamental Operating Systems concepts:
+The `Practical/` folder contains weekly practical lab work and solutions:
 
-| File Name | Experiment Topic & Description | Language |
+| File Name | Description | Format |
 | :--- | :--- | :---: |
-| [**lab01_process_creation.c**](./Practical/lab01_process_creation.c) | Process Management: `fork()`, `exec()`, `wait()`, `getpid()`, and parent-child hierarchy | C |
-| [**lab02_cpu_scheduling_fcfs_sjf.c**](./Practical/lab02_cpu_scheduling_fcfs_sjf.c) | Non-Preemptive CPU Scheduling: FCFS and Shortest Job First (SJF) metrics | C |
-| [**lab03_cpu_scheduling_rr_priority.c**](./Practical/lab03_cpu_scheduling_rr_priority.c) | Preemptive CPU Scheduling: Round Robin (RR) with time quantum and Priority Scheduling | C |
-| [**lab04_ipc_pipes_shared_memory.c**](./Practical/lab04_ipc_pipes_shared_memory.c) | Inter-Process Communication (IPC): POSIX Anonymous Pipes and Shared Memory | C |
-| [**lab05_producer_consumer_posix_semaphores.c**](./Practical/lab05_producer_consumer_posix_semaphores.c) | Process Synchronization: Bounded Buffer Producer-Consumer with Semaphores & Mutex | C |
-| [**lab06_bankers_algorithm_deadlock.c**](./Practical/lab06_bankers_algorithm_deadlock.c) | Deadlock Avoidance: Dijkstra's Banker's Algorithm safety check & resource allocation | C |
-| [**lab07_memory_allocation_strategies.c**](./Practical/lab07_memory_allocation_strategies.c) | Contiguous Memory Allocation: First-Fit, Best-Fit, and Worst-Fit allocation strategies | C |
-| [**lab08_page_replacement_fifo_lru.c**](./Practical/lab08_page_replacement_fifo_lru.c) | Virtual Memory: FIFO and LRU (Least Recently Used) Page Replacement algorithms | C |
-| [**lab09_file_allocation_strategies.c**](./Practical/lab09_file_allocation_strategies.c) | File Systems: Sequential (Contiguous) and Indexed File Allocation strategies | C |
-| [**lab10_disk_scheduling_scan_cscan.c**](./Practical/lab10_disk_scheduling_scan_cscan.c) | Disk Head Scheduling: SCAN (Elevator) and C-SCAN cylinder seek optimization | C |
+| [**Week-01-Solutions.pdf**](./Practical/Week-01-Solutions.pdf) | Practical Week 01 Lab Solutions Document | PDF |
+| [**Week1.docx**](./Practical/Week1.docx) | Practical Week 01 Lab Assignment Document | DOCX |
+| [**README.md**](./Practical/README.md) | Practical Folder Documentation | Markdown |
 
 ---
 
-## 🎯 Updated Skill Files List (`/Skill`)
+## 🎯 Skill Folder (`/Skill`)
 
-The `Skill/` folder contains advanced system-level programming modules and concurrency algorithms:
-
-| File Name | Skill Task & Topic Description | Language |
-| :--- | :--- | :---: |
-| [**skill01_custom_shell_scripting.sh**](./Skill/skill01_custom_shell_scripting.sh) | Systems Automation: Process inspection, memory monitoring, and automated log parsing | Bash |
-| [**skill02_posix_multithreading_matrix.c**](./Skill/skill02_posix_multithreading_matrix.c) | Multithreading & Concurrency: POSIX Pthreads parallel matrix multiplication | C |
-| [**skill03_readers_writers_mutex.c**](./Skill/skill03_readers_writers_mutex.c) | Synchronization: Readers-Writers problem using Mutex and Reader-Preference locks | C |
-| [**skill04_dining_philosophers_problem.c**](./Skill/skill04_dining_philosophers_problem.c) | Classic Synchronization: Dining Philosophers solution with deadlock avoidance | C |
-| [**skill05_lru_cache_simulator.c**](./Skill/skill05_lru_cache_simulator.c) | Low-Level Data Structures: LRU Page Cache simulator using Hash Map + Doubly Linked List | C |
-| [**skill06_custom_malloc_free_allocator.c**](./Skill/skill06_custom_malloc_free_allocator.c) | Heap Memory Architecture: Custom heap memory manager (`my_malloc` and `my_free`) | C |
+The `Skill/` folder contains skill development modules and practice exercises for Operating Systems.
 
 ---
 
